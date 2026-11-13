@@ -86,6 +86,7 @@ chosen bytes; it does not tell you whether those bytes are safe.
 ## Notes
 
 - [Submission note](docs/report.md)
+- [Submission note as PDF](docs/report.pdf)
 - [GPU CI design and cost](docs/gpu-ci.md)
 - [What AI did](docs/ai-use.md)
 - [TestPyPI setup](docs/testpypi.md)

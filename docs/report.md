@@ -9,7 +9,8 @@ GPU execution itself is a design exercise, not a paid resource in this repositor
 Four incident branches each contain one real defect: unconditional `tomllib`
 import on Python 3.10, Unix-only `pwd` import on Windows, missing bundled TOML,
 and a broken console entry point. The naive workflow tests source on Linux/3.12,
-so all four pass there. The release workflow tests the installed distribution.
+so all four pass the equivalent local source checks. The release workflow tests
+the installed distribution.
 Actual run links and outcomes are recorded separately in `docs/evidence.md`.
 
 The build produces a wheel and sdist once. A 3×3 OS/Python matrix installs the
@@ -43,8 +44,9 @@ A lock is not a malware check, and it does not freeze consumer dependency choice
 Use ephemeral Runpod GPU Pods for a separate CUDA workload: small correctness
 tests per release, a larger fixture and regression sample nightly. At an assumed
 $0.44/hour, 30 × 15 minutes plus 4 × 33 minutes is 9.7 hours, or $4.27.
-Full-duration second attempts cost up to $8.54. With timeout-length attempts the
-envelope is $11.15, before cleanup lag, storage, traffic and tax. Budget $15 and
+Full-duration second attempts cost up to $8.54. A 20 GB ephemeral disk adds about
+$0.03 at the normal duration; Runpod lists no transfer fees. With timeout-length
+attempts the compute envelope is $11.15, before cleanup lag, disk and tax. Budget $15 and
 recheck the live price before deploying. Detailed assumptions are in `gpu-ci.md`.
 
 Run CPU checks first; cap concurrency, time and retries. A trusted controller

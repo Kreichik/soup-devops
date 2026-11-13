@@ -40,8 +40,12 @@ durations are whole minutes, so that choice does not change the default total.
 
 If every run consumes a second full attempt, the compute allowance is **$8.54**.
 Use **$15/month** as a planning cap with room for storage and price variation;
-this is a cap, not a forecast of the provider's invoice. Network, storage and tax
-must be added for an actual deployment. No persistent network volume is required.
+this is a cap, not a forecast of the provider's invoice. Assume a 20 GB container
+disk, no volume disk and no persistent network volume. At $0.10/GB/month, prorated
+over 9.7 hours in a 720-hour month, disk adds about **$0.03**, so baseline compute
+plus disk is **$4.30/month before tax**. Runpod currently lists no ingress/egress
+fees; external log/artifact hosting is separate. Disk grows to roughly $0.07 at
+the timeout/retry envelope below. All pricing inputs were checked on 2026-11-13.
 
 ## Keep failures cheap
 
@@ -62,7 +66,7 @@ normal-duration retry number: `(30 × 20 + 4 × 40) × 2 / 60 × 0.44 = $11.15`.
 Cleanup lag and a higher on-demand price can increase it further.
 The independent reaper and admission budget matter more than the nominal $4.27.
 
-References: https://www.runpod.io/pricing and https://docs.runpod.io/pods/billing.
-The pricing page was checked on 2026-11-13. Billing documentation access and storage
-rates must be confirmed before deployment; neither a live Pod nor a bill was tested.
+References: https://www.runpod.io/pricing and https://docs.runpod.io/pods/pricing.
+Both pages were checked on 2026-11-13. The latter documents per-second billing,
+disk rates and no ingress/egress fees. Neither a live Pod nor a bill was tested.
 

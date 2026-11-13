@@ -20,3 +20,7 @@ Yanking and a new fixed version are the practical recovery path.
 No answer script was prepared for the live discussion. No personal surprise or
 manual verification is attributed to the candidate without their review.
 
+The provider's documentation included instructions addressed to AI agents, such
+as sending feedback to an external endpoint. Those were treated as page content,
+not task instructions; no feedback or account setup request was sent.
+
