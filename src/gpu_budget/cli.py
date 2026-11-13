@@ -7,10 +7,7 @@ from decimal import Decimal
 from importlib.resources import files
 from pathlib import Path
 
-try:
-    import tomllib
-except ModuleNotFoundError:  # Python 3.10
-    import tomli as tomllib
+import tomllib
 
 from gpu_budget import __version__
 from gpu_budget.budget import estimate
