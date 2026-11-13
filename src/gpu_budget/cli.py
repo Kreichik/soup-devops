@@ -2,6 +2,8 @@
 
 import argparse
 import json
+import os
+import pwd
 import sys
 from decimal import Decimal
 from importlib.resources import files
@@ -17,7 +19,10 @@ from gpu_budget.budget import estimate
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Estimate monthly GPU CI compute spend.")
+    parser = argparse.ArgumentParser(
+        description="Estimate monthly GPU CI compute spend.",
+        epilog=f"Budget owner: {pwd.getpwuid(os.getuid()).pw_name}",
+    )
     parser.add_argument("--version", action="version", version=__version__)
     parser.add_argument("--plan", type=Path, help="TOML plan; defaults to the bundled example")
     args = parser.parse_args(argv)
