@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [project.scripts]
-gpu-budget = "gpu_budget.cli:main"
+gpu-budget = "gpu_budget.cli:run"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
