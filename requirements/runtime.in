@@ -1,0 +1,4 @@
+# Install the fallback explicitly in test environments, including modern Python.
+# The wheel's environment marker still determines normal consumer installation.
+tomli==2.3.0
+

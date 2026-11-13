@@ -1,0 +1,17 @@
+# A planning assumption, not a live price quote. See docs/gpu-ci.md.
+[billing]
+usd_per_hour = "0.44"
+quantum_minutes = "1"
+
+[nightly]
+runs = 30
+test_minutes = "12"
+startup_minutes = "3"
+max_attempts = 2
+
+[release]
+runs = 4
+test_minutes = "30"
+startup_minutes = "3"
+max_attempts = 2
+

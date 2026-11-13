@@ -1,0 +1,148 @@
+name: Release checks
+
+on:
+  push:
+    branches: [main, 'incident/**']
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --require-hashes -r requirements/ci.lock
+      - run: ruff check .
+      - run: ruff format --check .
+      - name: Test source logic
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -v
+      - name: Build once, with the locked toolchain
+        run: python -m build --no-isolation --outdir release/dist
+      - run: python -m twine check --strict release/dist/*
+      - run: python scripts/artifacts.py record
+      - name: Try artifact substitution, a stale commit and a mismatched tag
+        run: python scripts/probe_guards.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-${{ github.sha }}
+          path: release/
+          if-no-files-found: error
+          retention-days: 30
+
+  installed:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.10', '3.12', '3.14']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release-${{ github.sha }}
+          path: release
+      - run: python scripts/artifacts.py verify
+      - name: Test the installed wheel outside the checkout
+        shell: bash
+        run: python scripts/smoke.py release/dist/*.whl
+      - name: Cold resolver on the oldest supported Python
+        if: matrix.python == '3.10'
+        shell: bash
+        run: python scripts/smoke.py release/dist/*.whl --cold
+
+  sdist:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.10'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release-${{ github.sha }}
+          path: release
+      - run: python scripts/artifacts.py verify
+      - name: Build and install from the source distribution
+        run: python scripts/smoke.py release/dist/*.tar.gz --cold
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release-${{ github.sha }}
+          path: release
+      - run: python3 scripts/artifacts.py verify
+      - run: docker build -t gpu-budget-smoke .
+      - name: Run offline with a read-only filesystem
+        run: docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges gpu-budget-smoke
+
+  publish:
+    needs: [build, installed, sdist, docker]
+    if: >-
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v') &&
+      github.repository == 'Kreichik/soup-devops'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/soup-gpu-budget-kreichik
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Only release commits already on main
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: release-${{ github.sha }}
+          path: release
+      - run: python3 scripts/artifacts.py verify
+      - name: Publish tested bytes to TestPyPI
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: release/dist/
+      - name: Fetch the published files and compare their hashes
+        run: python3 scripts/check_index.py
+      - name: Run the package downloaded from TestPyPI
+        run: python3 scripts/smoke.py release/published/*.whl --cold
+

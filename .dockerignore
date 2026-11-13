@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!requirements/
+!requirements/runtime.lock
+!release/
+!release/dist/
+!release/dist/*.whl
