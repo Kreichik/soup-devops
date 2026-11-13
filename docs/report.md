@@ -12,6 +12,8 @@ and a broken console entry point. The naive workflow tests source on Linux/3.12,
 so all four pass the equivalent local source checks. The release workflow tests
 the installed distribution.
 Actual run links and outcomes are recorded separately in `docs/evidence.md`.
+The first hosted runs were blocked before any step by GitHub account billing;
+they do not count as successful defect detection. Windows execution is pending.
 
 The build produces a wheel and sdist once. A 3×3 OS/Python matrix installs the
 wheel in empty venvs outside the checkout, invokes the installed command and

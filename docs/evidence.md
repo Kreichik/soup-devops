@@ -2,13 +2,25 @@
 
 ## GitHub status
 
-**Blocked before upload.** Both `git push` and the connected GitHub contents API
-returned HTTP 403 (`Resource not accessible by integration`). The repository is
-public and readable, but the connected installation currently lists only
-`BAITC-Hacks`, not the personal account `Kreichik`.
+Main and all four incident branches are uploaded. The initial HTTP 403 was fixed
+by installing the GitHub app for the personal account, not just the organization.
 
-There are no Actions run links yet. The owner needs to grant the GitHub app access
-to `Kreichik/soup-devops`. No Windows/macOS run or OIDC publication is claimed.
+**Hosted execution is blocked by account billing.** Each initial run failed before
+executing a step. GitHub's annotation reads:
+
+> The job was not started because your account is locked due to a billing issue.
+
+These are infrastructure failures, not evidence that a package defect was caught.
+No green hosted run, Windows/macOS execution or OIDC publication is claimed.
+The failed runs remain visible:
+
+| Branch | Naive CI | Release checks | Actual outcome |
+| --- | --- | --- | --- |
+| `main` | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438961713) | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438961538) | Billing block |
+| `incident/python310` | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438988323) | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438988218) | Billing block |
+| `incident/windows` | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438988317) | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438988333) | Billing block |
+| `incident/package-data` | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438988018) | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438987928) | Billing block |
+| `incident/entrypoint` | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438989887) | [run](https://github.com/Kreichik/soup-devops/actions/runs/43438989691) | Billing block |
 
 ## Local experiment, 2026-11-13
 
@@ -50,8 +62,8 @@ Additional checks on the fixed version:
 
 ## Still required
 
-Push main and the four incident branches. Capture naive-green and hardened-red
-Actions runs for each defect, plus a green run on main. Verify the actual failed
+After the owner resolves the GitHub billing block, rerun the workflows. Capture
+naive-green and hardened-red runs for each defect, plus a green run on main. Verify the actual failed
 steps, not just workflow conclusions. Then publish a matching tag through TestPyPI
 OIDC and check the fetched files against the tested hashes. Add those links here
 without deleting or rewriting any failed runs.
