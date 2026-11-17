@@ -1,6 +1,6 @@
 # A green job is not an installed package
 
-Repository: https://github.com/Kreichik/soup-devops
+Repository: [https://github.com/Kreichik/soup-devops](https://github.com/Kreichik/soup-devops)
 
 The application estimates a GPU CI bill. It includes startup, per-allocation
 billing rounding and a retry ceiling. The default is $4.27/month of compute;
@@ -8,18 +8,18 @@ GPU execution itself is a design exercise, not a paid resource in this repositor
 
 ## Reproduce, then catch
 
-Four incident branches each contain one real defect: unconditional `tomllib`
-import on Python 3.10, Unix-only `pwd` import on Windows, missing bundled TOML,
+Four incident branches each contain one real defect: unconditional **tomllib**
+import on Python 3.10, Unix-only **pwd** import on Windows, missing bundled TOML,
 and a broken console entry point. The naive workflow tests source on Linux/3.12,
 so all four are green there. Each is red in the release workflow; the fixed main
 passes every check. The failed steps and error messages were checked in the logs.
-Run links are in `docs/evidence.md`. The first hosted attempts were blocked by
+Run links are in **docs/evidence.md**. The first hosted attempts were blocked by
 account billing; they remain visible and do not count as defect detection.
 
-Release `v0.1.0` published to TestPyPI through OIDC without manual approval.
+Release **v0.1.0** published to TestPyPI through OIDC without manual approval.
 The workflow fetched both files, matched their hashes to the tested build and
 ran the downloaded wheel. Release run:
-https://github.com/Kreichik/soup-devops/actions/runs/44036315529
+[https://github.com/Kreichik/soup-devops/actions/runs/44036315529](https://github.com/Kreichik/soup-devops/actions/runs/44036315529)
 
 The build produces a wheel and sdist once. A 3×3 OS/Python matrix installs the
 wheel in empty venvs outside the checkout, invokes the installed command and
@@ -40,7 +40,7 @@ Repository settings must still protect main and restrict who can create tags.
 
 **PR credentials.** PR checks get read-only permissions and checkout does not
 persist credentials. The OIDC job runs only on tag pushes in this repository,
-after all checks. There is no `pull_request_target` or privileged PR execution.
+after all checks. There is no **pull_request_target** or privileged PR execution.
 TestPyPI trusts the exact repository/workflow/environment; no upload token exists.
 
 Actions are pinned by commit. Build and smoke dependencies have hash locks.
@@ -55,7 +55,7 @@ $0.44/hour, 30 × 15 minutes plus 4 × 33 minutes is 9.7 hours, or $4.27.
 Full-duration second attempts cost up to $8.54. A 20 GB ephemeral disk adds about
 $0.03 at the normal duration; Runpod lists no transfer fees. With timeout-length
 attempts the compute envelope is $11.15, before cleanup lag, disk and tax. Budget $15 and
-recheck the live price before deploying. Detailed assumptions are in `gpu-ci.md`.
+recheck the live price before deploying. Detailed assumptions are in **gpu-ci.md**.
 
 Run CPU checks first; cap concurrency, time and retries. A trusted controller
 holds the provider credential. A separate expiry reaper handles orphaned Pods;
@@ -85,7 +85,7 @@ manual approval for production PyPI until main and release tags are protected
 and a release owner can respond to a bad upload. The checks here reduce specific
 risks; they do not establish who is allowed to release or who handles an incident.
 I personally repeated the workflow review, CI inspection, packaging failure
-and TestPyPI installation checks; the details are in `ai-use.md`.
+and TestPyPI installation checks; the details are in **ai-use.md**.
 
 AI assisted with code and text; its scope and review limitations are recorded in
-`ai-use.md`. The evidence table distinguishes completed checks from pending work.
+**ai-use.md**. The evidence table distinguishes completed checks from pending work.
