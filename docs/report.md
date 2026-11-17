@@ -1,5 +1,7 @@
 # A green job is not an installed package
 
+Repository: https://github.com/Kreichik/soup-devops
+
 The application estimates a GPU CI bill. It includes startup, per-allocation
 billing rounding and a retry ceiling. The default is $4.27/month of compute;
 GPU execution itself is a design exercise, not a paid resource in this repository.
@@ -9,11 +11,10 @@ GPU execution itself is a design exercise, not a paid resource in this repositor
 Four incident branches each contain one real defect: unconditional `tomllib`
 import on Python 3.10, Unix-only `pwd` import on Windows, missing bundled TOML,
 and a broken console entry point. The naive workflow tests source on Linux/3.12,
-so all four pass the equivalent local source checks. The release workflow tests
-the installed distribution.
-Actual run links and outcomes are recorded separately in `docs/evidence.md`.
-The first hosted runs were blocked before any step by GitHub account billing;
-they do not count as successful defect detection. Windows execution is pending.
+so all four are green there. Each is red in the release workflow; the fixed main
+passes every check. The failed steps and error messages were checked in the logs.
+Run links are in `docs/evidence.md`. The first hosted attempts were blocked by
+account billing; they remain visible and do not count as defect detection.
 
 The build produces a wheel and sdist once. A 3×3 OS/Python matrix installs the
 wheel in empty venvs outside the checkout, invokes the installed command and
@@ -72,11 +73,12 @@ Recovery is normally a yank plus a new fixed version.
 
 ## Observation and concern
 
-The source tests can execute the CLI function successfully while the installed
-command is unusable. The boundary between the checkout and the wheel was the
-useful part of this experiment. My remaining concern is how easily “same commit”
-gets mistaken for “same artifact”: rebuilding in the publish job would undo much
-of the evidence gathered earlier.
+The Unix-only owner lookup failed on Windows as expected, but also in the Linux
+container: UID 65532 had no passwd entry. The fix was to remove account lookup;
+the calculator does not need it. That was a useful reminder that “Linux” does not
+describe the whole runtime. My remaining concern is how easily “same commit” gets
+mistaken for “same artifact”: rebuilding before publication would undo the earlier
+checks.
 
 AI assisted with code and text; its scope and review limitations are recorded in
 `ai-use.md`. The evidence table distinguishes completed checks from pending work.

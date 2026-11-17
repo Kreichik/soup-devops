@@ -12,6 +12,12 @@ results. These are automated checks, not a claim that the candidate manually
 reviewed every line. The candidate should add their own review notes here before
 submission.
 
+The agent checked the completed GitHub runs on 2026-11-17: four naive-green /
+release-red pairs and a green full matrix on main. It read the failing logs rather
+than treating any red status as evidence. Earlier billing-blocked attempts were
+kept and explicitly excluded. The extra missing-passwd-entry failure in Docker
+was found in those logs; it was not part of the original expected Windows failure.
+
 Two assumptions needed care: a lock in this repository does not pin every user's
 environment, and “PyPI releases cannot be deleted” is too broad. Deletion exists,
 but it neither recalls installed copies nor lets us overwrite a published filename.
