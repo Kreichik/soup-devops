@@ -18,6 +18,10 @@ than treating any red status as evidence. Earlier billing-blocked attempts were
 kept and explicitly excluded. The extra missing-passwd-entry failure in Docker
 was found in those logs; it was not part of the original expected Windows failure.
 
+The owner configured TestPyPI Trusted Publishing. The agent pushed `v0.1.0` and
+verified the successful publish job, hash comparisons and post-index smoke test.
+The email draft is provided for the owner to review and send.
+
 Two assumptions needed care: a lock in this repository does not pin every user's
 environment, and “PyPI releases cannot be deleted” is too broad. Deletion exists,
 but it neither recalls installed copies nor lets us overwrite a published filename.

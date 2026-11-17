@@ -1,0 +1,26 @@
+To: team@trysoup.dev
+Subject: DevOps Engineer take-home — Kreichik
+
+Hi,
+
+Here is my take-home: https://github.com/Kreichik/soup-devops
+
+The CLI estimates GPU CI costs. Four incident branches pass the naive CI and fail
+the installed-package checks. The fixed version passes the Linux/Windows/macOS
+matrix and publishes to TestPyPI through OIDC.
+
+Run links and failure details:
+https://github.com/Kreichik/soup-devops/blob/main/docs/evidence.md
+
+The one-page note:
+https://github.com/Kreichik/soup-devops/blob/main/docs/report.pdf
+
+TestPyPI release:
+https://test.pypi.org/project/soup-gpu-budget-kreichik/0.1.0/
+
+The first Actions attempts were blocked by GitHub account billing. I kept those
+attempts and separated them from the actual defect results. AI use is documented
+in docs/ai-use.md.
+
+Thanks,
+Kreichik

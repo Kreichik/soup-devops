@@ -2,6 +2,10 @@
 
 A GPU CI bill estimator with a release lab attached. It never provisions a machine.
 
+[TestPyPI 0.1.0](https://test.pypi.org/project/soup-gpu-budget-kreichik/0.1.0/)
+was published via OIDC and verified by downloading and running it again:
+[green release run](https://github.com/Kreichik/soup-devops/actions/runs/44036315529).
+
 The example budgets 30 nightly runs and four releases. Each allocation includes
 startup time and rounds up to the billing interval. A second number shows the
 ceiling if every job uses its retry allowance. Two six-second jobs on minute
@@ -90,4 +94,5 @@ chosen bytes; it does not tell you whether those bytes are safe.
 - [GPU CI design and cost](docs/gpu-ci.md)
 - [What AI did](docs/ai-use.md)
 - [TestPyPI setup](docs/testpypi.md)
+- [Submission email draft](docs/submission-email.txt)
 

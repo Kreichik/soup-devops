@@ -16,6 +16,11 @@ passes every check. The failed steps and error messages were checked in the logs
 Run links are in `docs/evidence.md`. The first hosted attempts were blocked by
 account billing; they remain visible and do not count as defect detection.
 
+Release `v0.1.0` published to TestPyPI through OIDC without manual approval.
+The workflow fetched both files, matched their hashes to the tested build and
+ran the downloaded wheel. Release run:
+https://github.com/Kreichik/soup-devops/actions/runs/44036315529
+
 The build produces a wheel and sdist once. A 3×3 OS/Python matrix installs the
 wheel in empty venvs outside the checkout, invokes the installed command and
 checks its output. Python 3.10 also resolves from wheel metadata with no cache.
@@ -60,8 +65,8 @@ cleanup inside the workflow alone cannot survive loss of that runner.
 
 I would let this pipeline publish this demo to TestPyPI without a manual gate.
 I would not yet give it unattended real-PyPI publication. First protect the main
-branch and release tags, confirm the post-index check on a real publication, and
-assign an owner for release incidents. Then decide whether this package's blast radius
+branch and release tags, assign an owner for release incidents, and review action
+runtime upgrades flagged by GitHub. Then decide whether this package's blast radius
 justifies removing approval. The choice is a policy, not a consequence of green CI.
 
 Remaining gaps include compromised maintainers/actions/build tools, untested

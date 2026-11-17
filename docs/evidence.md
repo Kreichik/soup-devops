@@ -76,8 +76,27 @@ Additional checks on the fixed version:
 
 ## TestPyPI
 
-Publication of `v0.1.0` is the remaining step. The tag workflow must pass its own
-checks, upload via OIDC, fetch both distributions from TestPyPI, compare their
-SHA-256 hashes with the tested build, and run the downloaded wheel. Publication
-success will be recorded here only after those steps finish.
+**Published and verified on 2026-11-17.**
+
+- Tag: [`v0.1.0`](https://github.com/Kreichik/soup-devops/tree/v0.1.0), commit `c9a1fcb`.
+- [Complete green release run](https://github.com/Kreichik/soup-devops/actions/runs/44036315529).
+- [Publish job and post-index checks](https://github.com/Kreichik/soup-devops/actions/runs/44036315529/job/133880593029).
+- [TestPyPI release](https://test.pypi.org/project/soup-gpu-budget-kreichik/0.1.0/).
+
+The tag run passed all nine OS/Python cells, sdist and Docker checks. OIDC upload
+succeeded. The workflow fetched both distributions from TestPyPI, compared their
+SHA-256 hashes against the tested build, and ran the downloaded wheel in another
+clean environment. Default cost, retry ceiling, a plan path containing spaces and
+invalid input handling all passed. No manual publish approval or API token was used.
+
+The tagged commit also has independent green branch runs:
+[release checks](https://github.com/Kreichik/soup-devops/actions/runs/44036315327)
+and [naive CI](https://github.com/Kreichik/soup-devops/actions/runs/44036315341).
+
+## Maintenance notes from the actual run
+
+GitHub warned that several pinned actions target Node.js 20 and are being forced
+onto Node.js 24. The runs passed, but updating and reviewing those pins is still
+maintenance work. `*-latest` runner images and hosted capacity also change; a
+green run is evidence for that environment and time, not a permanent guarantee.
 
