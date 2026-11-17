@@ -1,5 +1,5 @@
 To: team@trysoup.dev
-Subject: DevOps Engineer take-home — Kreichik
+Subject: DevOps Engineer take-home — Yan
 
 Hi,
 
@@ -23,4 +23,4 @@ attempts and separated them from the actual defect results. AI use is documented
 in docs/ai-use.md.
 
 Thanks,
-Kreichik
+Yan

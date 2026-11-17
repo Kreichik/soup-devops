@@ -78,12 +78,14 @@ Recovery is normally a yank plus a new fixed version.
 
 ## Observation and concern
 
-The Unix-only owner lookup failed on Windows as expected, but also in the Linux
-container: UID 65532 had no passwd entry. The fix was to remove account lookup;
-the calculator does not need it. That was a useful reminder that “Linux” does not
-describe the whole runtime. My remaining concern is how easily “same commit” gets
-mistaken for “same artifact”: rebuilding before publication would undo the earlier
-checks.
+The packaging example shows why I would keep the installed-wheel check as a
+release gate: the source test can read a profile from the checkout even when the
+wheel omits it. A successful build does not cover that gap. I agree with keeping
+manual approval for production PyPI until main and release tags are protected
+and a release owner can respond to a bad upload. The checks here reduce specific
+risks; they do not establish who is allowed to release or who handles an incident.
+Codex ran the follow-up checks under my direction; the execution details are in
+`ai-use.md`.
 
 AI assisted with code and text; its scope and review limitations are recorded in
 `ai-use.md`. The evidence table distinguishes completed checks from pending work.
