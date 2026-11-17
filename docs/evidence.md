@@ -89,6 +89,13 @@ SHA-256 hashes against the tested build, and ran the downloaded wheel in another
 clean environment. Default cost, retry ceiling, a plan path containing spaces and
 invalid input handling all passed. No manual publish approval or API token was used.
 
+Verified published SHA-256 values:
+
+```text
+bc30210d0c784c6fba04e8b80115ba275dcc9fb29d34a9b08795a61340d33662  soup_gpu_budget_kreichik-0.1.0-py3-none-any.whl
+ca9db3361c57ad9620245d55ca6a3ea6732050bc32ef49259372d522e98c6056  soup_gpu_budget_kreichik-0.1.0.tar.gz
+```
+
 The tagged commit also has independent green branch runs:
 [release checks](https://github.com/Kreichik/soup-devops/actions/runs/44036315327)
 and [naive CI](https://github.com/Kreichik/soup-devops/actions/runs/44036315341).

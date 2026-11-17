@@ -12,7 +12,7 @@ matrix and publishes to TestPyPI through OIDC.
 Run links and failure details:
 https://github.com/Kreichik/soup-devops/blob/main/docs/evidence.md
 
-The one-page note:
+The short note:
 https://github.com/Kreichik/soup-devops/blob/main/docs/report.pdf
 
 TestPyPI release:
