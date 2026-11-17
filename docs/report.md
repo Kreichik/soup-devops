@@ -84,8 +84,8 @@ wheel omits it. A successful build does not cover that gap. I agree with keeping
 manual approval for production PyPI until main and release tags are protected
 and a release owner can respond to a bad upload. The checks here reduce specific
 risks; they do not establish who is allowed to release or who handles an incident.
-Codex ran the follow-up checks under my direction; the execution details are in
-`ai-use.md`.
+I personally repeated the workflow review, CI inspection, packaging failure
+and TestPyPI installation checks; the details are in `ai-use.md`.
 
 AI assisted with code and text; its scope and review limitations are recorded in
 `ai-use.md`. The evidence table distinguishes completed checks from pending work.

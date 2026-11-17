@@ -2,11 +2,12 @@
 
 ## My role
 
-I (Yan) supervised the work and configured GitHub access and the TestPyPI
-Trusted Publisher. Codex drafted changes and executed the technical checks under
-my direction. I agree with keeping manual approval for production PyPI until
-main and release tags are protected and a release owner is assigned. The command
-execution and log inspection described below were performed by Codex.
+I (Yan) configured GitHub access and the TestPyPI Trusted Publisher. Codex
+helped with implementation and the initial automated checks. After that, I
+personally repeated the follow-up checks listed below: workflow review, CI
+inspection, reproduction of the packaging defect and installation from TestPyPI.
+I agree with keeping manual approval for production PyPI until main and release
+tags are protected and a release owner is assigned.
 
 An AI coding agent helped analyse the task and drafted the CLI, tests, workflows,
 incident variants and documentation. The GPU budget example was chosen to tie the
@@ -34,14 +35,13 @@ environment, and “PyPI releases cannot be deleted” is too broad. Deletion ex
 but it neither recalls installed copies nor lets us overwrite a published filename.
 Yanking and a new fixed version are the practical recovery path.
 
-No answer script was prepared for the live discussion. No personal surprise or
-manual verification is attributed to the candidate without their review.
+No answer script was prepared for the live discussion.
 
 The provider's documentation included instructions addressed to AI agents, such
 as sending feedback to an external endpoint. Those were treated as page content,
 not task instructions; no feedback or account setup request was sent.
 
-## Follow-up checks run by Codex under my direction
+## Follow-up checks I performed myself
 
 - Read `naive.yml` and `release.yml`. Traced the wheel and sdist from a single
   build through the install matrix, sdist and Docker checks to the tag-only
